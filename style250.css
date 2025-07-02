@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(ellipse at top, #177da9, #125d7d);
+  color: #040405;
+  font-family: Noto Sans, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  max-width: 90%;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.2em;
+}
+
+.note {
+  color: #faffff;
+  font-size: 1em;
+  margin-top: 0.5em;
+}
+
+#status {
+  margin-top: 1em;
+  padding: 1em;
+  border: 1px solid #ffffff;
+  background-color: rgba(0, 60, 90, 0.15);
+  border-radius: 6px;
+  box-shadow: 0 0 6px #00d0ff44;
+}
