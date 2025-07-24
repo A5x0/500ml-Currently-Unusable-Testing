@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(ellipse at top, #177da9, #125d7d);
+  color: #040405;
+  font-family: 'Noto Sans', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
