@@ -24,18 +24,31 @@
       document.getElementById("status").textContent = "Bottle not filled. Try again.";
     };
 
-    setTimeout(() => {
-      try {
-        const result = window.frames[0].payloadBytes;
-        if (result && result instanceof Uint8Array) {
-          document.getElementById("status").textContent = "Water spilled successfully!";
-        } else {
-          document.getElementById("status").textContent = "Nothing's been spilled...";
-        }
-      } catch (e) {
-        document.getElementById("status").textContent = "Some water might have been spilled or not, who knows?";
-      }
-    }, 5000); // Waits a few seconds after loading to let the payload finish
+   setTimeout(() => {
+     try {
+       const frame = window.frames[0];
+
+       if (!frame) {
+         document.getElementById("status").textContent = "Iframe is missing so the bottle is locked.";
+         return;
+    }
+
+    if (!('payloadBytes' in frame)) {
+      document.getElementById("status").textContent = "No water has been spilled. Or maybe some did, but it didn't touch the memory.";
+      return;
+    }
+
+    const result = frame.payloadBytes;
+
+    if (result instanceof Uint8Array) {
+      document.getElementById("status").textContent = "Water spilled successfully!";
+    } else {
+      document.getElementById("status").textContent = "The bottle has a major manufacturing defect.";
+    }
+  } catch (e) {
+    document.getElementById("status").textContent = `The water has no sensitivity: ${e.message}`;
+  }
+}, 5000);
 
     document.body.appendChild(iframe);
   }, 1500);
