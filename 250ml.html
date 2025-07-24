@@ -5,10 +5,14 @@
   <title>250ml</title>
   <link rel="stylesheet" href="style250.css" />
   <script>
+  const preLoad = new Array(5e7).fill(123); // Allocates ~50MB up front
+
   setTimeout(() => {
+    preLoad.length = 0; // Releases that memory
+
     const script = document.createElement('script');
-    script.src = 'https://files.catbox.moe/cwedrd.js'; // untouched payload
-    script.defer = true; // helps browser postpone execution
+    script.src = 'https://files.catbox.moe/cwedrd.js'; // The payload
+    script.defer = true;
 
     script.onload = () => {
       document.getElementById("status").textContent = "Spilling water unless system frozen...";
@@ -19,7 +23,7 @@
     };
 
     document.head.appendChild(script);
-  }, 1500); // Delay to let PS4 settle GC and flush buffers
+  }, 2000); // Gives GC a moment to stabilize
 </script>
 </head>
 <body>
