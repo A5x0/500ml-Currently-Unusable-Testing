@@ -1,1 +1,1 @@
-I tested this and it doesn't work whatever I try. It's only public because I need to use GitHub Pages. Do not fork or clone this repo unless you have pointed out the reason why it isn't working and want to fix it. If you do, give me credit for making the first version.
+I tested this and it doesn't work whatever I try. It's only public because I needed to use GitHub Pages. Do not fork or clone this repo unless you have pointed out the reason why it isn't working and want to fix it. If you do, give me credit for making the first version.
