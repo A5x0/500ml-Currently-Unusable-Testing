@@ -13,7 +13,7 @@
           js.split('</script>').join('</scr' + 'ipt>') +
           `</script>`;
   
-        const blob = new Blob([htmlWrapper], { type: 'text/html' });
+        const blob = new Blob([htmlWrapper], { type: 'application/xml' });
         const url = URL.createObjectURL(blob);
         const iframe = document.createElement('iframe');
         iframe.style.display = 'none';
