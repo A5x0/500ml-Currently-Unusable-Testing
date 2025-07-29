@@ -10,41 +10,27 @@
       .then(res => res.text())
       .then(js => {
         const htmlWrapper = `
-  <!DOCTYPE html>
-  <html>
-    <head><meta charset="utf-8"></head>
-    <body>
-      <script>
-        ${js.replace(/<\/script>/g, '<\\/script>')}
-      <\/script>
-    </body>
-  </html>
-`;
-
-    const blob = new Blob([htmlWrapper], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.src = url;
-
-    document.body.appendChild(iframe);
-  });
+          <!DOCTYPE html>
+          <html>
+            <head><meta charset="utf-8"></head>
+            <body>
+              <script>
+                ${js.replace(/<\/script>/g, '<\\/script>')}
+              <\/script>
+            </body>
+          </html>
+        `;
+        const blob = new Blob([htmlWrapper], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = url;
 
         iframe.onload = () => {
-          const now = () => `${Math.floor(performance.now())}ms`;
-          document.getElementById("status").textContent = `Spilling 250ml... [${now()}]`;
-
+          document.getElementById("status").textContent = "Spilling 250ml...";
           setTimeout(() => {
             try {
-              const frame = window.frames[0];
-              if (!frame || !('payloadBytes' in frame)) {
-                document.getElementById("status").textContent =
-                  "No water was spilled. Or maybe some did, but it didn't touch the memory.";
-                return;
-              }
-
-              const result = frame.payloadBytes;
+              const result = iframe.contentWindow?.payloadBytes;
               if (result instanceof Uint8Array) {
                 document.getElementById("status").textContent = "Water spilled successfully!";
               } else {
@@ -53,13 +39,14 @@
             } catch (e) {
               document.getElementById("status").textContent = `The water has no sensitivity: ${e.message}`;
             }
-          }, 5000);
+          }, 3000);
         };
 
         iframe.onerror = () => {
           document.getElementById("status").textContent = "Bottle not filled. Try again.";
         };
 
+        // Append AFTER setting handlers
         document.body.appendChild(iframe);
       })
       .catch(e => {
